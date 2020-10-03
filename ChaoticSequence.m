@@ -1,19 +1,14 @@
-clc;%清除当前command区域的命令
-clear;%清空环境变量
-P = imread('lena.bmp');
-iptsetpref('imshowborder','tight');%图像处理工具箱设置首选项，图像展示框，紧紧围绕图像
-figure(1);imshow(P);
-[M,N] = size(P);P = double(P);%转换为数值型的量
-n = M+N;
+function s = ChaoticSequence( n )
+%UNTITLED 此处显示有关此函数的摘要
+%   此处显示详细说明
 x0 = 1.1; y0 = 2.2; z0 = 3.3; w0 = 4.4;
-a = 10;b = 8/3;c = 28;r = -1;h = 0.00002;t = 800;
+a = 10;b = 8/3;c = 28;r = -1;h = 0.002;t = 800;
 s = zeros(1,n);
-p=0;
 for i = 1:n+t
     K11 = a*(y0-x0)+w0;
     K12 = a*(y0-x0+K11*h/2)+w0;
-    K13 = a*(y0-x0+K12*h/2)+w0;
-    K14 = a*(y0-x0+K13*h)+w0;
+    K13 = a*(y0-(x0+K12*h/2))+w0;
+    K14 = a*(y0-(x0+K13*h))+w0;
     x1 = x0+(K11+K12+K13+K14)*h/6;
     
     K21 = c*x1-y0-x1*z0;
@@ -36,22 +31,12 @@ for i = 1:n+t
     
     x0=x1;y0=y1;z0=z1;w0=w1;
    if i>t
-        s(i-t)=x1;
+        s(i-t)=mod(floor((x1+100)*pow2(16)),2);
+        if mod((i-t),3000)==0
+            x0=x0+h*sin(y0);
+        end
     end
 end
-X = mod(floor((s(1:M)+100)*10^10),M)+1;
-Y = mod(floor((s(M+1:M+N)+100)*10^10),N)+1;
-A=P;
-for i = 1:M
-    B=A(i,:);
-    A(i,:)=A(X(i),:);
-    A(X(i),:)=B;
-end
-figure(2);imshow(uint8(A));
 
-for j = 1:N
-    B = A(:,j);
-    A(:,j) = A(:,Y(j));
-    A(:,Y(j)) = B;
 end
-figure(3);imshow(uint8(A));
+

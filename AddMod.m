@@ -1,10 +1,9 @@
-clc;%清除当前command区域的命令
-clear;%清空环境变量
+clc;clear;
 P = imread('lena.bmp');
 iptsetpref('imshowborder','tight');%图像处理工具箱设置首选项，图像展示框，紧紧围绕图像
 figure(1);imshow(P);
 [M,N] = size(P);P = double(P);%转换为数值型的量
-n = M+N;
+n = 2*M*N;
 x0 = 1.1; y0 = 2.2; z0 = 3.3; w0 = 4.4;
 a = 10;b = 8/3;c = 28;r = -1;h = 0.00002;t = 800;
 s = zeros(1,n);
@@ -37,21 +36,34 @@ for i = 1:n+t
     x0=x1;y0=y1;z0=z1;w0=w1;
    if i>t
         s(i-t)=x1;
+        if mod((i-t),3000) == 0
+            x0 = x0 +h*sin(y0);
+        end
     end
 end
-X = mod(floor((s(1:M)+100)*10^10),M)+1;
-Y = mod(floor((s(M+1:M+N)+100)*10^10),N)+1;
-A=P;
-for i = 1:M
-    B=A(i,:);
-    A(i,:)=A(X(i),:);
-    A(X(i),:)=B;
+S = mod(floor(s*pow2(16)),256);%因为需要异或运算需要将数值大小控制在0-255之间
+S1 = S(1:M*N);S2 = S(M*N + 1:2*M*N);
+B = zeros(M,N);C=zeros(M,N);
+tic;
+A = P(:);B0 = 0;B1 = mod(B0+S1(1)+A(1),256);
+for i = 2:M*N
+    B(i) = mod(B(i-1) + S1(i) +A(i),256);
 end
-figure(2);imshow(uint8(A));
+C0 = 0;C(M*N) = mod(C0 +S2(M*N) +B(M*N),256);
+for i = M*N-1:-1:1
+    C(i) = mod(C(i+1)+S2(i)+B(i),256);
+end
+C = reshape(C,M,N);
+toc;
+figure(2);imshow(uint8(C));
 
-for j = 1:N
-    B = A(:,j);
-    A(:,j) = A(:,Y(j));
-    A(:,Y(j)) = B;
+A = C(:);D = zeros(M,N);E=zeros(M,N);
+D0 = 0;D(M*N) = mod(2*256-D0-S2(M*N)+A(M*N),256);
+for i=M*N-1:-1:1
+    D(i) = mod(2*256-A(i+1)-S2(i)+A(i),256);
 end
-figure(3);imshow(uint8(A));
+E0 = 0;E(1) = mod(2*256-E0-S1(1)+D(1),256);
+for i =2:M*N
+    E(i) = mod(2*256-D(i-1)-S1(i)+D(i),256);
+end
+E=reshape(E,M,N);figure(3);imshow(uint8(E));
