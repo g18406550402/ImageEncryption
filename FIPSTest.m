@@ -1,4 +1,6 @@
-s=ChaoticSequence(20000);
+clc;clear;
+s=ChaoticSeq(20000);
+s=mod(floor((s+100)*pow2(16)),2);
 k1=sum(s);k0=length(s)-k1;%µ•±»Ãÿ
 
 f=zeros(1,16);

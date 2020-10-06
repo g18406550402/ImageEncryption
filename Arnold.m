@@ -2,28 +2,27 @@ clc;
 clear;
 P=imread('lena.bmp');
 %P=imresize(P,[64,64]);
-figure(1);imshow(P);
+figure(1);imshow(P);P=double(P);
 iptsetpref('imshowborder','tight');
 S=P;
 [M,N] = size(P);
-a=1;b=1;
-for k=1:12
+a=7;b=9;
+%for k=1:5
    for i=1:M
        for j=1:N
            [x,y] = f_arnold(i,j,a,b);
            t=S(x,y);S(x,y) = S(i,j);S(i,j)=t;
        end
    end
-   figure(2);
-imshow(S);
-        if mod(k,2)==0
-        figure; 
-        imshow(S);
-        end
-end
+%end
+figure(2);
+imshow(uint8(S));
+%图像直方图
+figure;hist(S(:),256);set(gca,'fontsize',18);
+%直方图x^2检验
+fp2=hist(S(:),256);g=M*N/256;chai2=sum((fp2-g).^2)/g;
+
 %解密过程
-% figure(2); 
-% imshow(S);
 %  for i=M:-1:1
 %      for j=N:-1:1
 %          [x,y] = f_arnold(i,j,a,b);

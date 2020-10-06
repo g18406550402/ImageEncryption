@@ -1,4 +1,4 @@
-s=ChaoticSequence(30000);
+s=ChaoticSeq(30000);
 s=mod(floor((s(1:end)+100)*pow2(16)),256);
 
 chai2=zeros(1,4);
@@ -18,4 +18,3 @@ for j=1:length(s)
     f(s(j)+1)=f(s(j)+1)+1;
 end
 chai2(4)=sum((f-g).^2/g);
-chai2

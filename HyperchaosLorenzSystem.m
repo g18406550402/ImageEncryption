@@ -1,7 +1,7 @@
-function s = ChaoticSequence( n )
-%UNTITLED 此处显示有关此函数的摘要
+function s = HyperchaosLorenzSystem( n,K )
+%HYPERCHAOSLORENZSYSTEM 此处显示有关此函数的摘要
 %   此处显示详细说明
-x0 = 1.1; y0 = 2.2; z0 = 3.3; w0 = 4.4;
+x0 = K(1); y0 = K(2); z0 = K(3); w0 = K(4);
 a = 10;b = 8/3;c = 28;r = -1;h = 0.002;t = 800;
 s = zeros(1,n);
 for i = 1:n+t
