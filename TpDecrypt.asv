@@ -25,10 +25,10 @@ end
 %二维展一维无重复置乱还原
 
 %只置乱还原，将E改为C
-%只扩散不置乱注释掉
-%   for i=floor(M*N/2):-1:1
-%       t=E(X(i));E(X(i))=E(X(M*N-i+1));E(X(M*N-i+1))=t;
-%   end
+%只
+for i=floor(M*N/2):-1:1
+    t=E(X(i));E(X(i))=E(X(M*N-i+1));E(X(M*N-i+1))=t;
+end
 %toc;
 E=reshape(E,M,N);E=uint8(E);
 P=E;

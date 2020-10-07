@@ -10,10 +10,15 @@ X1(length(idx)+1:end)=setdiff(1:M*N,X1);X=X1;%X无重复元素的
 A=P(:);
 %二维展一维无重复置乱
 %tic;
-for i=1:floor(M*N/2)
-    t=A(X(i));A(X(i))=A(X(M*N-i+1));A(X(M*N-i+1))=t;
-end
-%A=reshape(A,M,N);figure;imshow(uint8(A));
+%只扩散不置乱--注释掉
+%   for i=1:floor(M*N/2)
+%       t=A(X(i));A(X(i))=A(X(M*N-i+1));A(X(M*N-i+1))=t;
+%   end
+A=reshape(A,M,N);
+
+%只置乱不扩散
+%A=uint8(A);
+
 %GF257扩散
 TBL=GF257Table();S=mod(floor(s(M*N+1:3*M*N)*pow2(16)),256);
 S1=S(1:M*N);S2=S(M*N+1:2*M*N);B=zeros(1,M*N);C=zeros(1,M*N);
@@ -28,7 +33,7 @@ for i=M*N-1:-1:1
     C(i)=LookUpGF257(C(i+1),S2(i),B(i),TBL);
 end
 %toc;
-C=reshape(C,M,N);C=uint8(C);%figure;imshow(uint8(C));
+C=reshape(C,M,N);C=uint8(C);
 %图像直方图
 %figure;hist(C(:),256);set(gca,'fontsize',18);
 

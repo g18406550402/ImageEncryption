@@ -29,11 +29,15 @@ A=reshape(A,M,N);
 
 figure;imshow(uint8(A));
 %图像直方图
-figure;hist(A(:),256);set(gca,'fontsize',18);
+%figure;hist(A(:),256);set(gca,'fontsize',18);
 %直方图x^2检验
-fp2=hist(A(:),256);g=M*N/256;chai2=sum((fp2-g).^2)/g;
+%fp2=hist(A(:),256);g=M*N/256;chai2=sum((fp2-g).^2)/g;
 %相关系数
-r2=ImCoef(A,2000);
+%r2=ImCoef(A,2000);
+%NPCRUACIBACI测试
+
+nu=NPCRUACIBACI(P,A);
+
 tic;
 for i=floor(n/2):-1:1
     t=A(X(i));A(X(i))=A(X(n-i+1));A(X(n-i+1))=t;

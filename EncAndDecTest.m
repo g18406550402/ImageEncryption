@@ -4,15 +4,18 @@ iptsetpref('imshowborder','tight');%图像处理工具箱设置首选项，图像展示框，紧紧围
 figure(1);imshow(P);
 
 %相关系数
-r1=ImCoef(P,2000);
-
-C=TpEncrypt(P);
+%r1=ImCoef(P,2000);
+K=[1.1 2.2 3.3 4.4];
+C=TpEncrypt(P,K);
+figure(2);imshow(C)
+%NPCRUACIBACI测试
+%nu=NPCRUACIBACI(P,C);
 
 %相关系数
-r2=ImCoef(C,2000);
+%r2=ImCoef(C,2000);
 
-P1=TpDecrypt(C);
-
+P1=TpDecrypt(C,K);
+figure(3);imshow(P1)
 
 
 %直方图

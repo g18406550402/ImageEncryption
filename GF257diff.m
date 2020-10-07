@@ -2,17 +2,17 @@ clc;%清除当前command区域的命令
 clear;%清空环境变量
 P = imread('lena.bmp');
 iptsetpref('imshowborder','tight');%图像处理工具箱设置首选项，图像展示框，紧紧围绕图像
-figure(1);imshow(P);
+%figure(1);imshow(P);
 
 %相关系数
-r1=ImCoef(P,2000);
+%r1=ImCoef(P,2000);
 
 [M,N] = size(P);P = double(P);%转换为数值型的量
 n = 2*M*N;
 s=ChaoticSequence(n);
 
 %直方图x^2检验
-fp1=hist(P(:),256);g=M*N/256;chai1=sum((fp1-g).^2)/g;
+%fp1=hist(P(:),256);g=M*N/256;chai1=sum((fp1-g).^2)/g;
 
 
 A=P(:);
@@ -33,14 +33,19 @@ for i=M*N-1:-1:1
     C(i)=LookUpGF257(C(i+1),S2(i),B(i),TBL);
 end
 toc;
-C=reshape(C,M,N);figure;imshow(uint8(C));
+C=reshape(C,M,N);%figure;imshow(uint8(C));
+
+%NPCRUACIBACI测试
+
+nu=NPCRUACIBACI(P,C);
+
 %直方图
-figure;hist(C(:),256);set(gca,'fontsize',18);
+%figure;hist(C(:),256);set(gca,'fontsize',18);
 %直方图x^2检验
-fp2=hist(C(:),256);g=M*N/256;chai2=sum((fp2-g).^2)/g;
+%fp2=hist(C(:),256);g=M*N/256;chai2=sum((fp2-g).^2)/g;
 
 %相关系数
-r2=ImCoef(C,2000);
+%r2=ImCoef(C,2000);
 
 A=C(:);D=zeros(1,M*N);E=zeros(1,M*N);
 tic;
@@ -53,4 +58,4 @@ for i=2:M*N
     E(i)=LookUpGF257Ex2(D(i),D(i-1),S1(i),TBL1,TBL2);
 end
 toc;
-E=reshape(E,M,N);figure;imshow(uint8(E));
+E=reshape(E,M,N);%figure;imshow(uint8(E));
