@@ -4,9 +4,9 @@ n=20000;
 xn = zeros(1,n);yn = zeros(1,n);zn = zeros(1,n);wn = zeros(1,n);
 for i = 1:n+t
     K11 = a*(y0-x0)+w0;
-    K12 = a*(y0-x0+K11*h/2)+w0;
-    K13 = a*(y0-x0+K12*h/2)+w0;
-    K14 = a*(y0-x0+K13*h)+w0;
+    K12 = a*(y0-x0-K11*h/2)+w0;
+    K13 = a*(y0-x0-K12*h/2)+w0;
+    K14 = a*(y0-x0-K13*h)+w0;
     x1 = x0+(K11+K12+K13+K14)*h/6;
     
     K21 = c*x1-y0-x1*z0;

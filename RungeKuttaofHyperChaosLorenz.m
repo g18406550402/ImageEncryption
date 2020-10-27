@@ -1,11 +1,7 @@
-function s = ChaoticSequence( n )
-%UNTITLED 此处显示有关此函数的摘要
+function [ x1,y1,z1,w1 ]  = RungeKuttaofHyperChaosLorenz( x0,y0,z0,w0,a,b,c,r,h )
+%RUNGEKUTTAOFHYPERCHAOSLORENZ 此处显示有关此函数的摘要
 %   此处显示详细说明
-x0 = 1.1; y0 = 2.2; z0 = 3.3; w0 = 4.4;
-a = 10;b = 8/3;c = 28;r = -1;h = 0.002;t = 800;
-s = zeros(1,n);
-for i = 1:n+t
-    K11 = a*(y0-x0)+w0;
+K11 = a*(y0-x0)+w0;
     K12 = a*(y0-(x0+K11*h/2))+w0;
     K13 = a*(y0-(x0+K12*h/2))+w0;
     K14 = a*(y0-(x0+K13*h))+w0;
@@ -28,15 +24,6 @@ for i = 1:n+t
     K43 = -y1*z1+r*(w0+K42*h/2);
     K44 = -y1*z1+r*(w0+K43*h);
     w1 = w0+(K41+K42+K43+K44)*h/6;
-    
-    x0=x1;y0=y1;z0=z1;w0=w1;
-   if i>t
-        s(i-t)=mod(floor((x1+100)*pow2(16)),2);
-        if mod((i-t),3000)==0
-            x0=x0+h*sin(x0);
-        end
-    end
-end
 
 end
 

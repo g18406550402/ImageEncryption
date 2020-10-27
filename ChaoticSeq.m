@@ -1,7 +1,7 @@
 function s = ChaoticSeq (n)
 s=zeros(1,n);num=600;
 y0 = [1.1,2.2,3.3];
-[t,y] = ode45('Chen_diff',[0,3500],y0);
+[t,y] = ode45('Chen_diff',[0,100000],y0);
 
 % 系统吸引子图像
 % figure(1);plot(y(:,1),y(:,2));
